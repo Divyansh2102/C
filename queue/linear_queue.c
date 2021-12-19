@@ -1,87 +1,82 @@
 #include<stdio.h>
 #include<stdlib.h>
-int f=-1,r=-1;
-void enqueue(int n,int *a){
-	if(f==(n-1)){
-		printf("\nFULL");
-		return ;
-	}
-	else if(f==-1&&r==-1){
-		f=r=0;
-		printf("\nEnter element  ");
-		scanf("%d",&a[r]);
+
+void enqueue(int x,int *f,int *r,int n,int a[]){
+	if(*f==-1&&*r==-1){
+		*f=*r=0;
+		a[*r]=x;
 	}
 	else{
-		r++;
-		printf("\nEnter element  ");
-		scanf("%d",&a[r]);
+		(*r)++;
+		a[*r]=x;
 	}
+}		
+
+void dequeue(int *f,int *r,int *a){
+	if(*f==*r){
+		printf("\nThe dequeued element is  %d",a[*f]);
+		*f=*r=-1;
+	}
+	else{
+		printf("\nThe dequeued element is  %d",a[*f]);
+		(*f)++;
+	}
+} 
+
+void peek(int *f,int a[]){
+	printf("The front element is  %d  ",a[*f]);
 }
 
-void dequeue(int *a){
-	if(f==-1&&r==-1){
-		printf("\nEMPTY ");
-		return ;
-	}
-	else if(f==r){
-		printf("\nThe deleted element is %d",a[f]);
-		f=r=-1;
-	}
-	else{
-		printf("\nThe deleted element is %d",a[f]);
-		f++;
-	}
+void disp(int *f,int *r,int n,int a[]){
+	int i;
+	for(i=*f;i<(*r)+1;i++)
+		printf("   %d  ",a[i]);
 }
-
-void peek(int *a){
-	if(f==-1&&r==-1){
-		printf("\nEMPTY ");
-		return ;
-	}
-	else{
-		printf("\nThe front element is %d",a[f]);
-	}
-}
-
-void display(int *a){
-	if(f==-1&&r==-1){
-		printf("\nEMPTY ");
-		return ;
-	}
-	else{
-		printf("\nThe elements are  :");
-		for(int i=f;i<r+1;i++)
-			printf(" %d  ",a[i]);
-	}
-}	
-	
-void main(){
-	int c,n;
-	int *a=(int *)malloc(sizeof(int));
-	printf("\nEnter the size of queue  ");
+int main(){
+	int r=-1,f=-1,c=1,n,*a;
+	printf("\nEnter the size ");
 	scanf("%d",&n);
-	printf("\nMENU\n1.INSERTION\t2.DELETE\t3.PEEK\t\t4.DISPLAY\t5.EXIT\n");
+	a=(int *)malloc(n*sizeof(int));
+	printf("\n1.ENQUEUE	2.DEQUEUE	3.PEEK		4.DISPLAY");
 	do{
-		printf("\nEnter the choice  ");
-		scanf("%d",&c);
 		switch(c){
 			case 1:
-				enqueue(n,a);
+				if(r==n-1)
+					printf("\nFULL");
+				else{
+					int x;
+					printf("\nEnter the element to be inserted  ");
+					scanf("%d",&x);
+					enqueue(x,&f,&r,n,a);
+				}	
 				break;
 			case 2:
-				dequeue(a);
+				if(f==-1)
+					printf("\nEmpty");
+				else{
+					dequeue(&f,&r,a);
+				}
 				break;
 			case 3:
-				peek(a);
+				if(f==-1)
+					printf("\nEmpty");
+				else{
+					peek(&f,a);
+				}
 				break;
 			case 4:
-				display(a);
-				break;
-			default:
-				printf("\nEXITING....");
-				exit(0);
-		}
-	}while(c);
+				if(f==-1)
+					printf("\nEmpty");
+				else{
+ 					disp(&f,&r,n,a);
+ 				}
+ 				break;
+ 			default:
+ 				printf("\nExiting...");
+ 				exit(0);
+ 			}
+ 			printf("\nEnter the choice   ");
+ 			scanf("%d",&c);
+ 	}while(c);
+	return 0;
 }
-				
-	
